@@ -86,7 +86,7 @@ TextTools.prototype.sizeOfString = function (text, styleContextStack) {
 	var characterSpacing = getStyleProperty({}, styleContextStack, 'characterSpacing', 0);
 
 	var font = this.fontProvider.provideFont(fontName, bold, italics);
-
+	
 	return {
 		width: widthOfString(text, font, fontSize, characterSpacing, fontFeatures),
 		height: font.lineHeight(fontSize) * lineHeight,
@@ -205,7 +205,12 @@ function normalizeTextArray(array, styleContextStack) {
 		var style = null;
 		var words;
 
-		var noWrap = getStyleProperty(item || {}, styleContextStack, 'noWrap', false);
+		var noWrapStyle = getStyleProperty(item || {}, styleContextStack, 'noWrap', false);
+		var paddingStyle = getStyleProperty(item || {}, styleContextStack, 'padding', false);
+
+		var horizontalPadding = getTotalHorizontalPadding(paddingStyle);
+
+		var noWrap = noWrapStyle || horizontalPadding > 0;
 		if (isObject(item)) {
 			if (item._textRef && item._textRef._textNodeRef.text) {
 				item.text = item._textRef._textNodeRef.text;
@@ -317,6 +322,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 		var opacity = getStyleProperty(item, styleContextStack, 'opacity', 1);
 		var sup = getStyleProperty(item, styleContextStack, 'sup', false);
 		var sub = getStyleProperty(item, styleContextStack, 'sub', false);
+		var padding = getStyleProperty(item, styleContextStack, 'padding', 0);
 
 		if ((sup || sub) && item.fontSize === undefined) {
 			// font size reduction taken from here: https://en.wikipedia.org/wiki/Subscript_and_superscript#Desktop_publishing
@@ -325,8 +331,11 @@ function measure(fontProvider, textArray, styleContextStack) {
 
 		var font = fontProvider.provideFont(fontName, bold, italics);
 
-		item.width = widthOfString(item.text, font, fontSize, characterSpacing, fontFeatures);
-		item.height = font.lineHeight(fontSize) * lineHeight;
+		var horizontalPadding = getTotalHorizontalPadding(padding);
+		var verticalPadding = getTotalVerticalPadding(padding);
+
+		item.width = widthOfString(item.text, font, fontSize, characterSpacing, fontFeatures) + horizontalPadding;
+		item.height = font.lineHeight(fontSize) * lineHeight + verticalPadding;
 
 		if (!item.leadingCut) {
 			item.leadingCut = 0;
@@ -368,6 +377,51 @@ function measure(fontProvider, textArray, styleContextStack) {
 
 function widthOfString(text, font, fontSize, characterSpacing, fontFeatures) {
 	return font.widthOfString(text, fontSize, fontFeatures) + ((characterSpacing || 0) * (text.length - 1));
+}
+
+/**
+ * Sums only horizontal padding.
+ * Note: order of padding as margins differed from css order:
+ * [all]
+ * [left/right, top/bottom]
+ * [left, top / bottom, right] 
+ * [left, top, right, bottom]
+ */
+function getTotalHorizontalPadding(padding) {
+	if (!padding) return 0;
+	if (isNumber(padding)) return padding*2;
+	if (isArray(padding)) {
+		if (padding.length === 1) {
+			return padding[0]*2;
+		}
+		if (padding.length === 2) {
+			return padding[0]*2;
+		}
+		if (padding.length === 3) {
+			return padding[0]+padding[2];
+		}
+		if (padding.length === 4) {
+			return padding[0]+padding[2];
+		}
+	}
+	return 0;
+}
+
+function getTotalVerticalPadding(padding) {
+	if (!padding) return 0;
+	if (isNumber(padding)) return padding*2;
+	if (isArray(padding)) {
+		if (padding.length === 1) {
+			return padding[0]*2;
+		}
+		if (padding.length === 2 || padding.length === 3) {
+			return padding[1]*2;
+		}
+		if (padding.length === 4) {
+			return padding[1]+padding[3];
+		}
+	}
+	return 0;
 }
 
 module.exports = TextTools;

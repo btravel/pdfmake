@@ -38,6 +38,13 @@ describe('TextTools', function () {
 		' Nowak\nDodatkowe informacje:'
 	];
 
+	var textArrayWithPadding = [
+		{ text: 'Imię: ', bold: true, padding: [5] },
+		{ text: 'Jan   ', bold: true, padding: [5, 10] },
+		{ text: '   Nazwisko:', bold: true, padding: [5, 10, 20]  },
+		{ text: ' Nowak\nDodatkowe informacje:', bold: true, padding: [5, 10, 20, 30]  }
+	];
+
 	var mixedTextArray = [
 		{ text: 'Imię: ', bold: true },
 		'Jan   ',
@@ -281,6 +288,22 @@ describe('TextTools', function () {
 			assert.equal(result[0].width, 72);
 			assert.equal(result[2].width, 36);
 			assert.equal(result[3].width, 108);
+		});
+
+		it('should measure text widths with padding', function () {
+			var result = TextTools.__get__('measure')(sampleTestProvider, textArrayWithPadding);
+			assert.equal(result[0].width, 108 + 5*2);
+			assert.equal(result[1].width, 108 + 5*2);
+			assert.equal(result[2].width, 216 + 5 + 20);
+			assert.equal(result[3].width, 504 + 5 + 20);
+		});
+
+		it('should measure text heights with padding', function () {
+			var result = TextTools.__get__('measure')(sampleTestProvider, textArrayWithPadding);
+			assert.equal(result[0].height, 12 + 5*2);
+			assert.equal(result[1].height, 12 + 10*2);
+			assert.equal(result[2].height, 12 + 10*2);
+			assert.equal(result[3].height, 12 + 10 + 30);
 		});
 
 		it('should calculate leading and trailing cuts', function () {
