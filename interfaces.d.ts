@@ -244,6 +244,19 @@ export type DynamicBackground = (currentPage: number, pageSize: ContextPageSize)
 export type Margins = number | [number, number] | [number, number, number, number];
 
 /**
+ * Padding in `pt`. Allows
+ * - a single number which applies the same padding on all sides
+ * - a tuple of two values `[horizontal, vertical]`
+ * - three values `[left, vertical, right]`
+ * - a tuple of four values `[left, top, right, bottom]`
+ *
+ * Paddings of adjacent elements do not collapse.
+ *
+ * Negative values can lead to elements overlapping each other.
+ */
+export type Paddings = number | [number, number] | [number, number, number] | [number, number, number, number];
+
+/**
  * Available types of decorations.
  * Can be combined with a {@link DecorationStyle}.
  */
@@ -752,6 +765,11 @@ export interface Style {
      * from a style and the value is set directly on the content object.
      */
     marginLeft?: number | undefined;
+
+    /**
+     * Paddings to apply.
+     */
+    padding?: Paddings | undefined;
 
     /**
      * Controls whether to preserve spaces at the beginning of a paragraph.
