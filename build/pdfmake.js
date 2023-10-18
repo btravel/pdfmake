@@ -13083,7 +13083,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 /***/ }),
 
-/***/ 1974:
+/***/ 29854:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -51926,7 +51926,7 @@ function simpleEnd(buf) {
 
 /***/ }),
 
-/***/ 45957:
+/***/ 907:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
@@ -67113,7 +67113,7 @@ module.exports = URLBrowserResolver;
 var isFunction = (__webpack_require__(6225).isFunction);
 var isUndefined = (__webpack_require__(6225).isUndefined);
 var isNull = (__webpack_require__(6225).isNull);
-var FileSaver = __webpack_require__(45957);
+var FileSaver = __webpack_require__(907);
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
@@ -70758,7 +70758,7 @@ function _interopDefault(ex) {
 	return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex;
 }
 
-var PdfKit = _interopDefault(__webpack_require__(1974));
+var PdfKit = _interopDefault(__webpack_require__(29854));
 
 function getEngineInstance() {
 	return PdfKit;
@@ -71253,7 +71253,7 @@ function renderLine(line, x, y, patterns, pdfKitDoc) {
 	}
 
 	x = x || 0;
-	y = y || line.marginTop || 0;
+	y = (y || 0) + (line.marginTop || 0);
 
 	var lineHeight = line.getHeight();
 	var ascenderHeight = line.getAscenderHeight();
