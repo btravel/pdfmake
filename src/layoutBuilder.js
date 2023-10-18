@@ -698,7 +698,7 @@ LayoutBuilder.prototype.processLeaf = function (node) {
 	while (line && (maxHeight === -1 || currentHeight < maxHeight)) {
 		var positions = this.writer.addLine(line);
 		node.positions.push(positions);
-		line = this.buildNextLine(node);
+		line = this.buildNextLine(node, node.linesGap);
 		if (line) {
 			currentHeight += line.getHeight();
 		}
@@ -714,7 +714,7 @@ LayoutBuilder.prototype.processToc = function (node) {
 	}
 };
 
-LayoutBuilder.prototype.buildNextLine = function (textNode) {
+LayoutBuilder.prototype.buildNextLine = function (textNode, gap) {
 
 	function cloneInline(inline) {
 		var newInline = inline.constructor();
@@ -728,7 +728,7 @@ LayoutBuilder.prototype.buildNextLine = function (textNode) {
 		return null;
 	}
 
-	var line = new Line(this.writer.context().availableWidth);
+	var line = new Line(this.writer.context().availableWidth, gap);
 	var textTools = new TextTools(null);
 
 	var isForceContinue = false;
