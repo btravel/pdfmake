@@ -322,6 +322,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 		var opacity = getStyleProperty(item, styleContextStack, 'opacity', 1);
 		var sup = getStyleProperty(item, styleContextStack, 'sup', false);
 		var sub = getStyleProperty(item, styleContextStack, 'sub', false);
+		var margin = getStyleProperty(item, styleContextStack, 'margin', 0);
 		var padding = getStyleProperty(item, styleContextStack, 'padding', 0);
 		var borderRadius = getStyleProperty(item, styleContextStack, 'borderRadius', 0);
 
@@ -371,6 +372,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 		item.opacity = opacity;
 		item.sup = sup;
 		item.sub = sub;
+		item.margin = margin;
 		item.padding = padding;
 		item.borderRadius = borderRadius;
 	});

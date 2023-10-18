@@ -7,17 +7,16 @@
  * @this {Line}
  * @param {Number} Maximum width this line can have
  */
-function Line(maxWidth, linesGap) {
+function Line(maxWidth) {
 	this.maxWidth = maxWidth;
 	this.leadingCut = 0;
 	this.trailingCut = 0;
 	this.inlineWidths = 0;
 	this.inlines = [];
-	this.linesGap = linesGap;
 }
 
 Line.prototype.getAscenderHeight = function () {
-	var y = this.linesGap || 0;
+	var y = 0;
 
 	this.inlines.forEach(function (inline) {
 		y = Math.max(y, inline.font.ascender / 1000 * inline.fontSize);
@@ -86,7 +85,7 @@ Line.prototype.getHeight = function () {
 		max = Math.max(max, item.height || 0);
 	});
 
-	return max + this.linesGap || 0;
+	return max;
 };
 
 module.exports = Line;
