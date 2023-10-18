@@ -13083,7 +13083,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 /***/ }),
 
-/***/ 29854:
+/***/ 23869:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -51926,7 +51926,7 @@ function simpleEnd(buf) {
 
 /***/ }),
 
-/***/ 907:
+/***/ 14251:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
@@ -67113,7 +67113,7 @@ module.exports = URLBrowserResolver;
 var isFunction = (__webpack_require__(6225).isFunction);
 var isUndefined = (__webpack_require__(6225).isUndefined);
 var isNull = (__webpack_require__(6225).isNull);
-var FileSaver = __webpack_require__(907);
+var FileSaver = __webpack_require__(14251);
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
@@ -70758,7 +70758,7 @@ function _interopDefault(ex) {
 	return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex;
 }
 
-var PdfKit = _interopDefault(__webpack_require__(29854));
+var PdfKit = _interopDefault(__webpack_require__(23869));
 
 function getEngineInstance() {
 	return PdfKit;
@@ -71255,7 +71255,7 @@ function renderLine(line, x, y, patterns, pdfKitDoc) {
 	x = x || 0;
 	y = (y || 0) + (line.marginTop || 0);
 
-	var lineHeight = line.getHeight();
+	var lineHeight = line.getHeight() - (line.marginTop || 0);
 	var ascenderHeight = line.getAscenderHeight();
 	var descent = lineHeight - ascenderHeight;
 
@@ -73334,8 +73334,8 @@ function drawDecorations(line, x, y, pdfKitDoc) {
 }
 
 function drawBackground(line, x, y, patterns, pdfKitDoc) {
-	var height = line.getHeight();
 	var marginTop = line.marginTop || 0;
+	var height = line.getHeight() - marginTop;
 	for (var i = 0, l = line.inlines.length; i < l; i++) {
 		var inline = line.inlines[i];
 		if (!inline.background) {
@@ -73349,11 +73349,11 @@ function drawBackground(line, x, y, patterns, pdfKitDoc) {
 
 		if (inline.borderRadius) {
 			pdfKitDoc.fillColor(color)
-			.roundedRect(x + inline.x - justifyShift, y + marginTop, inline.width + justifyShift, height - marginTop, inline.borderRadius)
+			.roundedRect(x + inline.x - justifyShift, y, inline.width + justifyShift, height, inline.borderRadius)
 			.fill();
 		} else {
 			pdfKitDoc.fillColor(color)
-				.rect(x + inline.x - justifyShift, y + marginTop, inline.width + justifyShift, height - marginTop)
+				.rect(x + inline.x - justifyShift, y, inline.width + justifyShift, height)
 				.fill();
 		}
 	}

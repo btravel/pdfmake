@@ -472,7 +472,7 @@ function renderLine(line, x, y, patterns, pdfKitDoc) {
 	x = x || 0;
 	y = (y || 0) + (line.marginTop || 0);
 
-	var lineHeight = line.getHeight();
+	var lineHeight = line.getHeight() - (line.marginTop || 0);
 	var ascenderHeight = line.getAscenderHeight();
 	var descent = lineHeight - ascenderHeight;
 
