@@ -963,6 +963,8 @@ export interface ContentText extends ContentLink, ContentBase, ForbidOtherElemen
      * below one another, but as inline text in a single paragraph.
      */
     text: Content;
+
+    linesGap?: number;
 }
 
 /**

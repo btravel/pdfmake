@@ -13083,7 +13083,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 /***/ }),
 
-/***/ 44491:
+/***/ 1974:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -51926,7 +51926,7 @@ function simpleEnd(buf) {
 
 /***/ }),
 
-/***/ 28010:
+/***/ 45957:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
@@ -67113,7 +67113,7 @@ module.exports = URLBrowserResolver;
 var isFunction = (__webpack_require__(6225).isFunction);
 var isUndefined = (__webpack_require__(6225).isUndefined);
 var isNull = (__webpack_require__(6225).isNull);
-var FileSaver = __webpack_require__(28010);
+var FileSaver = __webpack_require__(45957);
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
@@ -70355,7 +70355,7 @@ LayoutBuilder.prototype.processLeaf = function (node) {
 	while (line && (maxHeight === -1 || currentHeight < maxHeight)) {
 		var positions = this.writer.addLine(line);
 		node.positions.push(positions);
-		line = this.buildNextLine(node);
+		line = this.buildNextLine(node, node.linesGap);
 		if (line) {
 			currentHeight += line.getHeight();
 		}
@@ -70371,7 +70371,7 @@ LayoutBuilder.prototype.processToc = function (node) {
 	}
 };
 
-LayoutBuilder.prototype.buildNextLine = function (textNode) {
+LayoutBuilder.prototype.buildNextLine = function (textNode, marginTop) {
 
 	function cloneInline(inline) {
 		var newInline = inline.constructor();
@@ -70385,7 +70385,7 @@ LayoutBuilder.prototype.buildNextLine = function (textNode) {
 		return null;
 	}
 
-	var line = new Line(this.writer.context().availableWidth);
+	var line = new Line(this.writer.context().availableWidth, marginTop);
 	var textTools = new TextTools(null);
 
 	var isForceContinue = false;
@@ -70479,12 +70479,13 @@ module.exports = LayoutBuilder;
  * @this {Line}
  * @param {Number} Maximum width this line can have
  */
-function Line(maxWidth) {
+function Line(maxWidth, marginTop) {
 	this.maxWidth = maxWidth;
 	this.leadingCut = 0;
 	this.trailingCut = 0;
 	this.inlineWidths = 0;
 	this.inlines = [];
+	this.marginTop = marginTop;
 }
 
 Line.prototype.getAscenderHeight = function () {
@@ -70557,7 +70558,7 @@ Line.prototype.getHeight = function () {
 		max = Math.max(max, item.height || 0);
 	});
 
-	return max;
+	return max + (this.marginTop || 0);
 };
 
 module.exports = Line;
@@ -70757,7 +70758,7 @@ function _interopDefault(ex) {
 	return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex;
 }
 
-var PdfKit = _interopDefault(__webpack_require__(44491));
+var PdfKit = _interopDefault(__webpack_require__(1974));
 
 function getEngineInstance() {
 	return PdfKit;
@@ -71252,7 +71253,7 @@ function renderLine(line, x, y, patterns, pdfKitDoc) {
 	}
 
 	x = x || 0;
-	y = y || 0;
+	y = y || line.marginTop || 0;
 
 	var lineHeight = line.getHeight();
 	var ascenderHeight = line.getAscenderHeight();
@@ -73334,6 +73335,7 @@ function drawDecorations(line, x, y, pdfKitDoc) {
 
 function drawBackground(line, x, y, patterns, pdfKitDoc) {
 	var height = line.getHeight();
+	var marginTop = line.marginTop || 0;
 	for (var i = 0, l = line.inlines.length; i < l; i++) {
 		var inline = line.inlines[i];
 		if (!inline.background) {
@@ -73347,11 +73349,11 @@ function drawBackground(line, x, y, patterns, pdfKitDoc) {
 
 		if (inline.borderRadius) {
 			pdfKitDoc.fillColor(color)
-			.roundedRect(x + inline.x - justifyShift, y, inline.width + justifyShift, height, inline.borderRadius)
+			.roundedRect(x + inline.x - justifyShift, y + marginTop, inline.width + justifyShift, height - marginTop, inline.borderRadius)
 			.fill();
 		} else {
 			pdfKitDoc.fillColor(color)
-				.rect(x + inline.x - justifyShift, y, inline.width + justifyShift, height)
+				.rect(x + inline.x - justifyShift, y + marginTop, inline.width + justifyShift, height - marginTop)
 				.fill();
 		}
 	}

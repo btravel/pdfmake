@@ -135,6 +135,7 @@ function drawDecorations(line, x, y, pdfKitDoc) {
 
 function drawBackground(line, x, y, patterns, pdfKitDoc) {
 	var height = line.getHeight();
+	var marginTop = line.marginTop || 0;
 	for (var i = 0, l = line.inlines.length; i < l; i++) {
 		var inline = line.inlines[i];
 		if (!inline.background) {
@@ -148,11 +149,11 @@ function drawBackground(line, x, y, patterns, pdfKitDoc) {
 
 		if (inline.borderRadius) {
 			pdfKitDoc.fillColor(color)
-			.roundedRect(x + inline.x - justifyShift, y, inline.width + justifyShift, height, inline.borderRadius)
+			.roundedRect(x + inline.x - justifyShift, y + marginTop, inline.width + justifyShift, height - marginTop, inline.borderRadius)
 			.fill();
 		} else {
 			pdfKitDoc.fillColor(color)
-				.rect(x + inline.x - justifyShift, y, inline.width + justifyShift, height)
+				.rect(x + inline.x - justifyShift, y + marginTop, inline.width + justifyShift, height - marginTop)
 				.fill();
 		}
 	}

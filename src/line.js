@@ -7,12 +7,13 @@
  * @this {Line}
  * @param {Number} Maximum width this line can have
  */
-function Line(maxWidth) {
+function Line(maxWidth, marginTop) {
 	this.maxWidth = maxWidth;
 	this.leadingCut = 0;
 	this.trailingCut = 0;
 	this.inlineWidths = 0;
 	this.inlines = [];
+	this.marginTop = marginTop;
 }
 
 Line.prototype.getAscenderHeight = function () {
@@ -85,7 +86,7 @@ Line.prototype.getHeight = function () {
 		max = Math.max(max, item.height || 0);
 	});
 
-	return max;
+	return max + (this.marginTop || 0);
 };
 
 module.exports = Line;
