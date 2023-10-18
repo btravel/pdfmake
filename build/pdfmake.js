@@ -13083,7 +13083,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 /***/ }),
 
-/***/ 21781:
+/***/ 44491:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -51926,7 +51926,7 @@ function simpleEnd(buf) {
 
 /***/ }),
 
-/***/ 76089:
+/***/ 28010:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
@@ -67113,7 +67113,7 @@ module.exports = URLBrowserResolver;
 var isFunction = (__webpack_require__(6225).isFunction);
 var isUndefined = (__webpack_require__(6225).isUndefined);
 var isNull = (__webpack_require__(6225).isNull);
-var FileSaver = __webpack_require__(76089);
+var FileSaver = __webpack_require__(28010);
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
@@ -70757,7 +70757,7 @@ function _interopDefault(ex) {
 	return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex;
 }
 
-var PdfKit = _interopDefault(__webpack_require__(21781));
+var PdfKit = _interopDefault(__webpack_require__(44491));
 
 function getEngineInstance() {
 	return PdfKit;
@@ -73693,7 +73693,6 @@ function measure(fontProvider, textArray, styleContextStack) {
 		var opacity = getStyleProperty(item, styleContextStack, 'opacity', 1);
 		var sup = getStyleProperty(item, styleContextStack, 'sup', false);
 		var sub = getStyleProperty(item, styleContextStack, 'sub', false);
-		var margin = getStyleProperty(item, styleContextStack, 'margin', 0);
 		var padding = getStyleProperty(item, styleContextStack, 'padding', 0);
 		var borderRadius = getStyleProperty(item, styleContextStack, 'borderRadius', 0);
 
@@ -73743,7 +73742,6 @@ function measure(fontProvider, textArray, styleContextStack) {
 		item.opacity = opacity;
 		item.sup = sup;
 		item.sub = sub;
-		item.margin = margin;
 		item.padding = padding;
 		item.borderRadius = borderRadius;
 	});
