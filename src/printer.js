@@ -518,9 +518,9 @@ function renderLine(line, x, y, patterns, pdfKitDoc) {
 		
 		var leftPadding = 0;
 		var topPadding = 0;
-		if (inline.padding && inline.padding.length > 0) {
-			leftPadding = inline.padding[0];
-			topPadding = inline.padding.length === 1 ? inline.padding[0] : inline.padding[1];
+		if (inline.padding && (isNumber(inline.padding) || isArray(inline.padding) && inline.padding.length > 0)) {
+			leftPadding = isNumber(inline.padding) ? inline.padding : inline.padding[0];
+			topPadding = isNumber(inline.padding) ? inline.padding : inline.padding.length === 1 ? inline.padding[0] : inline.padding[1];
 		}
 		
 		pdfKitDoc.text(inline.text, x + inline.x + leftPadding, shiftedY+topPadding, options);
