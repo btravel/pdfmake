@@ -862,6 +862,12 @@ export interface Style {
      * Defaults to `0`.
      */
     columnGap?: number | undefined;
+
+
+    /**
+     * Border radius for text with filled backgrounds
+     */
+    borderRadius?: number;
 }
 
 /**

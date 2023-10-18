@@ -13083,7 +13083,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 /***/ }),
 
-/***/ 50174:
+/***/ 44491:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -51926,7 +51926,7 @@ function simpleEnd(buf) {
 
 /***/ }),
 
-/***/ 33747:
+/***/ 28010:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
@@ -67113,7 +67113,7 @@ module.exports = URLBrowserResolver;
 var isFunction = (__webpack_require__(6225).isFunction);
 var isUndefined = (__webpack_require__(6225).isUndefined);
 var isNull = (__webpack_require__(6225).isNull);
-var FileSaver = __webpack_require__(33747);
+var FileSaver = __webpack_require__(28010);
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
@@ -70757,7 +70757,7 @@ function _interopDefault(ex) {
 	return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex;
 }
 
-var PdfKit = _interopDefault(__webpack_require__(50174));
+var PdfKit = _interopDefault(__webpack_require__(44491));
 
 function getEngineInstance() {
 	return PdfKit;
@@ -73344,9 +73344,16 @@ function drawBackground(line, x, y, patterns, pdfKitDoc) {
 			color = getPattern(inline.background, patterns);
 		}
 		var justifyShift = (inline.justifyShift || 0);
-		pdfKitDoc.fillColor(color)
-			.rect(x + inline.x - justifyShift, y, inline.width + justifyShift, height)
+
+		if (inline.borderRadius) {
+			pdfKitDoc.fillColor(color)
+			.roundedRect(x + inline.x - justifyShift, y, inline.width + justifyShift, height, inline.borderRadius)
 			.fill();
+		} else {
+			pdfKitDoc.fillColor(color)
+				.rect(x + inline.x - justifyShift, y, inline.width + justifyShift, height)
+				.fill();
+		}
 	}
 }
 
@@ -73687,6 +73694,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 		var sup = getStyleProperty(item, styleContextStack, 'sup', false);
 		var sub = getStyleProperty(item, styleContextStack, 'sub', false);
 		var padding = getStyleProperty(item, styleContextStack, 'padding', 0);
+		var borderRadius = getStyleProperty(item, styleContextStack, 'borderRadius', 0);
 
 		if ((sup || sub) && item.fontSize === undefined) {
 			// font size reduction taken from here: https://en.wikipedia.org/wiki/Subscript_and_superscript#Desktop_publishing
@@ -73735,6 +73743,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 		item.sup = sup;
 		item.sub = sub;
 		item.padding = padding;
+		item.borderRadius = borderRadius;
 	});
 
 	return normalized;

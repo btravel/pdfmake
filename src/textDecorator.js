@@ -145,9 +145,16 @@ function drawBackground(line, x, y, patterns, pdfKitDoc) {
 			color = getPattern(inline.background, patterns);
 		}
 		var justifyShift = (inline.justifyShift || 0);
-		pdfKitDoc.fillColor(color)
-			.rect(x + inline.x - justifyShift, y, inline.width + justifyShift, height)
+
+		if (inline.borderRadius) {
+			pdfKitDoc.fillColor(color)
+			.roundedRect(x + inline.x - justifyShift, y, inline.width + justifyShift, height, inline.borderRadius)
 			.fill();
+		} else {
+			pdfKitDoc.fillColor(color)
+				.rect(x + inline.x - justifyShift, y, inline.width + justifyShift, height)
+				.fill();
+		}
 	}
 }
 
