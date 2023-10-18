@@ -370,6 +370,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 		item.opacity = opacity;
 		item.sup = sup;
 		item.sub = sub;
+		item.padding = padding;
 	});
 
 	return normalized;

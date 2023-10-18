@@ -515,7 +515,15 @@ function renderLine(line, x, y, patterns, pdfKitDoc) {
 		pdfKitDoc.fontSize(inline.fontSize);
 
 		var shiftedY = offsetText(y + shiftToBaseline, inline);
-		pdfKitDoc.text(inline.text, x + inline.x, shiftedY, options);
+		
+		var leftPadding = 0;
+		var topPadding = 0;
+		if (inline.padding && inline.padding.length > 0) {
+			leftPadding = inline.padding[0];
+			topPadding = inline.padding.length === 1 ? inline.padding[0] : inline.padding[1];
+		}
+		
+		pdfKitDoc.text(inline.text, x + inline.x + leftPadding, shiftedY+topPadding, options);
 
 		if (inline.linkToPage) {
 			var _ref = pdfKitDoc.ref({ Type: 'Action', S: 'GoTo', D: [inline.linkToPage, 0, 0] }).end();

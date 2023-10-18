@@ -13083,7 +13083,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 /***/ }),
 
-/***/ 77005:
+/***/ 36373:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -51926,7 +51926,7 @@ function simpleEnd(buf) {
 
 /***/ }),
 
-/***/ 36701:
+/***/ 72917:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
@@ -67113,7 +67113,7 @@ module.exports = URLBrowserResolver;
 var isFunction = (__webpack_require__(6225).isFunction);
 var isUndefined = (__webpack_require__(6225).isUndefined);
 var isNull = (__webpack_require__(6225).isNull);
-var FileSaver = __webpack_require__(36701);
+var FileSaver = __webpack_require__(72917);
 var saveAs = FileSaver.saveAs;
 
 var defaultClientFonts = {
@@ -70757,7 +70757,7 @@ function _interopDefault(ex) {
 	return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex;
 }
 
-var PdfKit = _interopDefault(__webpack_require__(77005));
+var PdfKit = _interopDefault(__webpack_require__(36373));
 
 function getEngineInstance() {
 	return PdfKit;
@@ -71297,7 +71297,15 @@ function renderLine(line, x, y, patterns, pdfKitDoc) {
 		pdfKitDoc.fontSize(inline.fontSize);
 
 		var shiftedY = offsetText(y + shiftToBaseline, inline);
-		pdfKitDoc.text(inline.text, x + inline.x, shiftedY, options);
+		
+		var leftPadding = 0;
+		var topPadding = 0;
+		if (inline.padding && inline.padding.length > 0) {
+			leftPadding = inline.padding[0];
+			topPadding = inline.padding.length === 1 ? inline.padding[0] : inline.padding[1];
+		}
+		
+		pdfKitDoc.text(inline.text, x + inline.x + leftPadding, shiftedY+topPadding, options);
 
 		if (inline.linkToPage) {
 			var _ref = pdfKitDoc.ref({ Type: 'Action', S: 'GoTo', D: [inline.linkToPage, 0, 0] }).end();
@@ -73726,6 +73734,7 @@ function measure(fontProvider, textArray, styleContextStack) {
 		item.opacity = opacity;
 		item.sup = sup;
 		item.sub = sub;
+		item.padding = padding;
 	});
 
 	return normalized;
